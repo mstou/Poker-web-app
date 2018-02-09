@@ -1,19 +1,22 @@
-// using lodash 4.17.4
+import groupBy as _groupBy from 'lodash/groupBy';
+import sortBy as _sortBy from 'lodash/sortBy';
+import flatten as _flatten from 'lodash/flatten';
+import chain as _chain from 'lodash/chain';
 
 function groupBy(option) {
-  return _.groupBy(this, option);
+  return _groupBy(this, option);
 }
 
 function sortBy(option) {
-  return _.sortBy(this, option);
+  return _sortBy(this, option);
 }
 
 function flatten() {
-  return _.flatten(this);
+  return _flatten(this);
 }
 
 function maxInARow() {
-  return _.chain(this)
+  return _chain(this)
     .sortBy()
     .uniq()
     .map((num, i) => (num - i))
