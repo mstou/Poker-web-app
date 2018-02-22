@@ -1,7 +1,7 @@
-import groupBy as _groupBy from 'lodash/groupBy';
-import sortBy as _sortBy from 'lodash/sortBy';
-import flatten as _flatten from 'lodash/flatten';
-import chain as _chain from 'lodash/chain';
+import { groupBy as _groupBy } from 'lodash/groupBy';
+import { sortBy as _sortBy } from 'lodash/sortBy';
+import { flatten as _flatten } from 'lodash/flatten';
+import { chain as _chain } from 'lodash/chain';
 
 function groupBy(option) {
   return _groupBy(this, option);

@@ -23,14 +23,14 @@ class PlayingCards {
     this.cards = cardsRange.sort(() => Math.random() - 0.5);
 
     this.orderedCards = [...this.cards].sort((a, b) => a.weight - b.weight);
-    this.ranks = this.orderedCards::groupBy('rank');
-    this.suits = this.orderedCards::groupBy('suit');
-    this.rankTimes = this.ranks::groupBy('length');
-    this.suitTimes = this.suits::groupBy('length');
+  /*  this.ranks = this.orderedCards.groupBy('rank');
+    this.suits = this.orderedCards.groupBy('suit');
+    this.rankTimes = this.ranks.groupBy('length');
+    this.suitTimes = this.suits.groupBy('length');
     this.maxInARow = this.orderedCards
       .map(({ weight }) => weight)
-      ::maxInARow();
-
+       .maxInARow();
+*/
     deepFreeze(this);
   }
 
@@ -53,7 +53,7 @@ class PlayingCards {
 
   hasInARow(n) { return this.maxInARow >= n; }
 
-  getWorstSingles() { return this.getOfSameRank(1)::flatten()::sortBy('weight'); }
+  getWorstSingles() { return this.getOfSameRank(1).flatten().sortBy('weight'); }
 }
 
 //
@@ -80,10 +80,11 @@ const PokerHandRate = (cards) => {
   return rating;
 };
 
+export { Ranks, Suits, Cards, PlayingCards, PokerRating, PokerHandRate };
 //
 // Tests
 //
-
+/*
 const [ H, C, D, S ] = Suits;
 const c = (weight, suit) => ({ rank: Ranks[weight], suit, weight });
 
@@ -95,3 +96,4 @@ const hand = [
 ];
 
 hand.forEach((cards) => console.log(PokerHandRate(new PlayingCards(cards))));
+*/
