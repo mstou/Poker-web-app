@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM  from 'react-dom';
-import Poker from './components';
-import WithGame from './withGame';
+import PokerGame from './PokerGame';
+
 
 ReactDOM.render(
-  <WithGame />,
+  <PokerGame />,
   document.getElementById('root')
 );

@@ -1,2 +1,2 @@
-import Poker from './Game';
-export default Poker;
+import Game from './Game';
+export default Game;

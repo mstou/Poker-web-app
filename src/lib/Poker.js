@@ -1,5 +1,21 @@
-import { deepFreeze, groupBy, sortBy, flatten, maxInARow } from '../commons';
+import { deepFreeze } from '../commons';
+import _ from 'lodash';
+// import groupBy from 'lodash/groupBy';
+// import sortBy  from 'lodash/sortBy';
+// import flatten from 'lodash/flatten';
+// import chain from 'lodash/chain';
 
+function maxInARow(cards) {
+  return _.chain(cards)
+    .sortBy()
+    .uniq()
+    .map((num, i) => (num - i))
+    .groupBy()
+    .orderBy('length')
+    .last()
+    .value()
+    .length;
+}
 //
 // Playing Cards class definition and implementation
 //
@@ -10,8 +26,7 @@ const Suits = Object.freeze([ 'hearts', 'clubs', 'diams', 'spades' ]);
 const Cards = Object.entries(Ranks).reduce(
   (cards, [ weight, rank ]) =>
     cards.concat(Suits.map(suit => ({ rank, suit, weight }))),
-  []
-);
+    []).map(({rank,suit,weight}) => ({rank,suit,weight: String.fromCharCode(weight-'0'+65)}));
 deepFreeze(Cards);
 
 class PlayingCards {
@@ -23,14 +38,20 @@ class PlayingCards {
     this.cards = cardsRange.sort(() => Math.random() - 0.5);
 
     this.orderedCards = [...this.cards].sort((a, b) => a.weight - b.weight);
-  /*  this.ranks = this.orderedCards.groupBy('rank');
-    this.suits = this.orderedCards.groupBy('suit');
-    this.rankTimes = this.ranks.groupBy('length');
-    this.suitTimes = this.suits.groupBy('length');
-    this.maxInARow = this.orderedCards
-      .map(({ weight }) => weight)
-       .maxInARow();
-*/
+    this.ranks = _.groupBy(this.orderedCards, 'rank');
+    this.suits = _.groupBy(this.orderedCards, 'suit');
+    this.rankTimes = _.groupBy(this.ranks, 'length');
+    this.suitTimes = _.groupBy(this.suits, 'length');
+    this.maxInARow = maxInARow(this.orderedCards
+      .map(({ weight }) => weight));
+
+    this.orderedWeights = _(this.ranks)
+    .map((cardGroup) => ({ length: cardGroup.length, weight: cardGroup[0].weight }))
+    .sortBy(({length, weight}) => `${length}${weight}`)
+    .map('weight')
+    .reverse()
+    .value();
+
     deepFreeze(this);
   }
 
@@ -40,6 +61,7 @@ class PlayingCards {
       restCards: new PlayingCards(this.cards, n, this.cards.length),
     };
   }
+  getOrderedWeights = () => this.orderedWeights;
 
   getOfSameRank(n) { return this.rankTimes[n] || []; }
 
@@ -61,22 +83,58 @@ class PlayingCards {
 //
 
 const PokerRating = {
-  RoyalFlush: (hand) => hand.hasInARow(5) && hand.hasOfSameSuit(5) && hand.hasAce(),
-  StraightFlush: (hand) => hand.hasInARow(5) && hand.hasOfSameSuit(5),
-  FourOfAKind: (hand) => hand.hasOfSameRank(4),
-  FullHouse: (hand) => hand.hasOfSameRank(3) && hand.hasOfSameRank(2),
-  Flush: (hand) => hand.hasOfSameSuit(5),
-  Straight: (hand) => hand.hasInARow(5),
-  ThreeOfAKind: (hand) => hand.hasOfSameRank(3),
-  TwoPair: (hand) => hand.hasOfSameRank(2) >= 2,
-  OnePair: (hand) => hand.hasOfSameRank(2),
-  HighCard: (hand) => hand.hasOfSameRank(1) >= 5,
+  RoyalFlush: {
+    is: (hand) => hand.hasInARow(5) && hand.hasOfSameSuit(5) && hand.hasAce(),
+    prefix: 'J',
+  },
+  StraightFlush: {
+    is: (hand) => hand.hasInARow(5) && hand.hasOfSameSuit(5),
+    prefix: 'I',
+  },
+  FourOfAKind: {
+    is: (hand) => hand.hasOfSameRank(4),
+    prefix: 'H',
+  },
+  FullHouse: {
+    is: (hand) => hand.hasOfSameRank(3) && hand.hasOfSameRank(2),
+    prefix: 'G',
+  },
+  Flush: {
+    is: (hand) => hand.hasOfSameSuit(5),
+    prefix: 'F',
+  },
+  Straight: {
+    is: (hand) => hand.hasInARow(5),
+    prefix: 'E',
+  },
+  ThreeOfAKind: {
+    is: (hand) => hand.hasOfSameRank(3),
+    prefix: 'D',
+  },
+  TwoPair: {
+    is: (hand) => hand.hasOfSameRank(2) === 2,
+    prefix: 'C',
+  },
+  OnePair: {
+    is: (hand) => hand.hasOfSameRank(2),
+    prefix: 'B',
+  },
+  HighCard: {
+    is: (hand) => hand.hasOfSameRank(1) === 5,
+    prefix: 'A',
+  },
 };
 
 deepFreeze(PokerRating);
 
+const orderWeight = (weights, prefix) => weights.reduce(
+  (prefix, weight) => `${prefix}${weight}`,
+  prefix
+);
+
 const PokerHandRate = (cards) => {
-  const [rating] = Object.entries(PokerRating).find(([rate, is]) => is(cards));
+  const [,{prefix}] = Object.entries(PokerRating).find(([rate,{is}]) => is(cards));
+  const rating = orderWeight(cards.getOrderedWeights(), prefix);
   return rating;
 };
 
