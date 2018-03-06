@@ -1,4 +1,4 @@
 import { deepFreeze } from './deepFreeze';
-import { groupBy, sortBy, flatten, maxInARow } from './ObjectUtils';
+import { maxInARow } from './ObjectUtils';
 
-export { deepFreeze, groupBy, sortBy, flatten, maxInARow };
+export { deepFreeze, maxInARow };

@@ -1,21 +1,7 @@
-import { deepFreeze } from '../commons';
 import _ from 'lodash';
-// import groupBy from 'lodash/groupBy';
-// import sortBy  from 'lodash/sortBy';
-// import flatten from 'lodash/flatten';
-// import chain from 'lodash/chain';
+import {deepFreeze, maxInARow } from '../commons';
 
-function maxInARow(cards) {
-  return _.chain(cards)
-    .sortBy()
-    .uniq()
-    .map((num, i) => (num - i))
-    .groupBy()
-    .orderBy('length')
-    .last()
-    .value()
-    .length;
-}
+
 //
 // Playing Cards class definition and implementation
 //
@@ -139,19 +125,3 @@ const PokerHandRate = (cards) => {
 };
 
 export { Ranks, Suits, Cards, PlayingCards, PokerRating, PokerHandRate };
-//
-// Tests
-//
-/*
-const [ H, C, D, S ] = Suits;
-const c = (weight, suit) => ({ rank: Ranks[weight], suit, weight });
-
-const hand = [
-  [ c(12, H), c(8, H), c(12, C), c(8, C), c(7, S), c(12, D) ],
-  [ c(12, H), c(12, D), c(12, C), c(8, C), c(12, S), c(6, D) ],
-  [ c(12, H), c(8, H), c(11, H), c(10, H), c(9, H), c(9, C) ],
-  [ c(12, H), c(8, H), c(12, C), c(6, C), c(7, S), c(7, D) ],
-];
-
-hand.forEach((cards) => console.log(PokerHandRate(new PlayingCards(cards))));
-*/
