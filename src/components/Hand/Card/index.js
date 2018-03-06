@@ -1,2 +1,4 @@
 import { Card } from './card';
-export { Card };
+import { CardBack } from './cardBack';
+import { CardSelected } from './cardSelected';
+export { Card, CardBack, CardSelected };
