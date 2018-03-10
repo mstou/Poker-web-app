@@ -1,20 +1,30 @@
 import { PlayingCards, PokerHandRate } from './Poker';
 
-class Game {
-  constructor(){
-    this.CardGame = new PlayingCards();
-    const { cards: user1Cards, restCards } = this.CardGame.getNCardsAndRest(5);
-    this.handOfUser1 = user1Cards;
+const Game = () => {
+    const CardGame = new PlayingCards();
+    const { cards: user1Cards, restCards } = CardGame.getNCardsAndRest(5);
     const { cards: user2Cards, restCards: remainingCards } = restCards.getNCardsAndRest(5);
-    this.handOfUser2 = user2Cards;
-    this.remainingCards = remainingCards;
+    return /*Object.freeze(*/{
+      Cards: [user1Cards,user2Cards],
+      restCards: remainingCards,
+      winner: undefined,
+    }//)
   }
-  calculateWinner(){
-      this.Player1Rating = PokerHandRate(this.handOfUser1);
-      this.Player2Rating = PokerHandRate(this.handOfUser2);
-      this.winner = (this.Player1Rating > this.Player2Rating) ? "Player 1" : "Player 2";
+
+  const calculateWinner = (game) => {
+
+      const newGame = game;
+      const Player1Rating = PokerHandRate(game.Cards[0]);
+      const Player2Rating = PokerHandRate(game.Cards[1]);
+      newGame.winner = (Player1Rating > Player2Rating) ? "Player 1" : "Player 2";
+      return Object.freeze(newGame);
 
   }
-}
 
-export default Game;
+  const selectCard = (game,index,player) => {
+    const newGame = game;
+    newGame.Cards[player].cards[index].selected= !newGame.Cards[player].cards[index].selected ;
+    return Object.freeze(newGame);
+  }
+
+export { Game, calculateWinner, selectCard };
