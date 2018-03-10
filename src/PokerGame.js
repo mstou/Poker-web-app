@@ -6,35 +6,42 @@ import PokerGame from './lib';
 class Game extends Component {
   constructor(props){
     super(props);
-    this.game = new PokerGame();
+    this.state = PokerGame.Game();
   }
 
   formatCards(cards){
-    return cards.map( ({rank, suit}) =>  [rank,suit] );
+    return cards.map( ({rank, suit, selected}) =>  [rank,suit,selected] );
+  }
+
+  selectCard(rank, suit, player){
+    const selectedCardIndex = this.state.Cards[player].cards.findIndex( ({rank: CardRank, suit: CardSuit}) =>
+    (CardRank===rank && CardSuit===suit));
+    this.setState(PokerGame.selectCard(this.state,selectedCardIndex,player));
+  }
+
+  calculateWinner(){
+    this.setState(PokerGame.calculateWinner(this.state));
   }
 
   render(){
 
-    const cardsOfPlayer1 = this.formatCards(this.game.handOfUser1.cards);
-    const cardsOfPlayer2 = this.formatCards(this.game.handOfUser2.cards);
+    const cardsOfPlayer1 = this.formatCards(this.state.Cards[0].cards);
+    const cardsOfPlayer2 = this.formatCards(this.state.Cards[1].cards);
 
-    this.game.calculateWinner();
-
-    //console.log(this.game.Player1Rating);
-    //console.log(this.game.Player2Rating);
 
    return (
      <div>
        <div>
         <div>
             <p> Player 1: </p>
-            <Hand cards={cardsOfPlayer1} />
+            <Hand cards={cardsOfPlayer1} player={1} onClick={ (rank,suit) => this.selectCard(rank,suit,0)}/>
         </div>
         <div>
             <p> Player 2: </p>
-            <Hand cards={cardsOfPlayer2} />
+            <Hand cards={cardsOfPlayer2} player={2} onClick={(rank,suit) => this.selectCard(rank,suit,1)}/>
        </div>
-       <p>{this.game.winner} is the Winner</p>
+       <button onClick={() => this.calculateWinner()}>Calculate Winner</button>
+       <p>{(this.state.winner) ? this.state.winner+" is the Winner!" : undefined }</p>
       </div>
     </div>
     );
