@@ -12,8 +12,8 @@ const Suits = Object.freeze([ 'hearts', 'clubs', 'diams', 'spades' ]);
 const Cards = Object.entries(Ranks).reduce(
   (cards, [ weight, rank ]) =>
     cards.concat(Suits.map(suit => ({ rank, suit, weight }))),
-    []).map(({rank,suit,weight}) => ({rank,suit,weight: String.fromCharCode(weight-'0'+65),selected:false}));
-//deepFreeze(Cards);
+    []).map(({rank,suit,weight}) => ({rank,suit,weight: String.fromCharCode(weight-'0'+65)}));
+deepFreeze(Cards);
 
 class PlayingCards {
 
@@ -38,7 +38,7 @@ class PlayingCards {
     .reverse()
     .value();
 
-    //deepFreeze(this);
+    deepFreeze(this);
   }
 
   getNCardsAndRest(n) {

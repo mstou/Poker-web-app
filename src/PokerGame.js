@@ -10,7 +10,7 @@ class Game extends Component {
   }
 
   formatCards(cards){
-    return cards.map( ({rank, suit, selected}) =>  [rank,suit,selected] );
+    return cards.map( ({rank, suit}) =>  [rank,suit] );
   }
 
   selectCard(rank, suit, player){
@@ -34,11 +34,11 @@ class Game extends Component {
        <div>
         <div>
             <p> Player 1: </p>
-            <Hand cards={cardsOfPlayer1} player={1} onClick={ (rank,suit) => this.selectCard(rank,suit,0)}/>
+            <Hand cards={cardsOfPlayer1} SelectedCards={this.state.SelectedCards[0]} onClick={ (rank,suit) => this.selectCard(rank,suit,0)}/>
         </div>
         <div>
             <p> Player 2: </p>
-            <Hand cards={cardsOfPlayer2} player={2} onClick={(rank,suit) => this.selectCard(rank,suit,1)}/>
+            <Hand cards={cardsOfPlayer2} SelectedCards={this.state.SelectedCards[1]} onClick={(rank,suit) => this.selectCard(rank,suit,1)}/>
        </div>
        <button onClick={() => this.calculateWinner()}>Calculate Winner</button>
        <p>{(this.state.winner) ? this.state.winner+" is the Winner!" : undefined }</p>

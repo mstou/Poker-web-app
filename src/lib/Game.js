@@ -4,11 +4,12 @@ const Game = () => {
     const CardGame = new PlayingCards();
     const { cards: user1Cards, restCards } = CardGame.getNCardsAndRest(5);
     const { cards: user2Cards, restCards: remainingCards } = restCards.getNCardsAndRest(5);
-    return /*Object.freeze(*/{
+    return Object.freeze({
       Cards: [user1Cards,user2Cards],
       restCards: remainingCards,
       winner: undefined,
-    }//)
+      SelectedCards: [ user1Cards.cards.map(()=> false) , user2Cards.cards.map(()=> false) ],
+    });
   }
 
   const calculateWinner = (game) => {
@@ -23,7 +24,7 @@ const Game = () => {
 
   const selectCard = (game,index,player) => {
     const newGame = game;
-    newGame.Cards[player].cards[index].selected= !newGame.Cards[player].cards[index].selected ;
+    newGame.SelectedCards[player][index] = !newGame.SelectedCards[player][index] ;
     return Object.freeze(newGame);
   }
 
