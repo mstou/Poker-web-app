@@ -19,6 +19,10 @@ class Game extends Component {
     this.setState(PokerGame.selectCard(this.state,selectedCardIndex,player));
   }
 
+  changeSelectedCards(){
+    this.setState(PokerGame.changeSelectedCards(this.state,0));
+    this.setState(PokerGame.changeSelectedCards(this.state,1));
+  }
   calculateWinner(){
     this.setState(PokerGame.calculateWinner(this.state));
   }
@@ -42,6 +46,7 @@ class Game extends Component {
        </div>
        <button onClick={() => this.calculateWinner()}>Calculate Winner</button>
        <p>{(this.state.winner) ? this.state.winner+" is the Winner!" : undefined }</p>
+       <button onClick={() => this.changeSelectedCards()}> Change Cards! </button>
       </div>
     </div>
     );
