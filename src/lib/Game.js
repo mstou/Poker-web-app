@@ -29,6 +29,7 @@ const Game = () => {
     if(newCards.length===5) {
       return game;
     }
+
     const {cards: cardsToAdd , restCards } = game.restCards.getNCardsAndRest(5 - newCards.length);
 
     newGame.Cards[player] = new PlayingCards(newCards.concat(cardsToAdd.cards));
@@ -44,4 +45,25 @@ const Game = () => {
     return newGame;
   }
 
-export { Game, calculateWinner, selectCard, changeSelectedCards };
+  const automatedPlayer = (gameState) => {
+    const playerHand = gameState.Cards[0];
+    const rating = PokerHandRate(playerHand);
+    let cardsToSelect = [];
+
+    if(rating[0] >= 'E') return gameState;
+
+    else{
+        cardsToSelect = playerHand.rankTimes["1"].map(([card]) => card).filter(
+          (card) => !(card.weight.charCodeAt(0)-65 >= 7));
+    }
+
+    const indexesOfCardsToSelect = cardsToSelect.map(({ rank, suit }) =>
+    playerHand.cards.findIndex( ({rank: CardRank, suit: CardSuit}) =>
+    (CardRank===rank && CardSuit===suit)));
+
+    indexesOfCardsToSelect.forEach((index) => gameState = selectCard(gameState,index,0));
+    const newState = gameState;
+    return newState;
+  }
+
+export { Game, calculateWinner, selectCard, changeSelectedCards, automatedPlayer };

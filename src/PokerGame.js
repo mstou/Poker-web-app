@@ -20,6 +20,7 @@ class Game extends Component {
   }
 
   changeSelectedCards(){
+    this.setState(PokerGame.automatedPlayer(this.state));
     this.setState(PokerGame.changeSelectedCards(this.state,0));
     this.setState(PokerGame.changeSelectedCards(this.state,1));
   }
