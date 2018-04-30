@@ -42,6 +42,13 @@ class PlayingCards {
   }
 
   getNCardsAndRest(n) {
+    if(n===0){
+      return {
+        cards: { cards: [] },
+        restCards: this
+      }
+    }
+
     return {
       cards: new PlayingCards(this.cards, 0, n),
       restCards: new PlayingCards(this.cards, n, this.cards.length),

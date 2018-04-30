@@ -29,11 +29,6 @@ const Game = () => {
       game.Cards[1].cards.filter((card,index) => !game.SelectedCards[1][index])
     ];
 
-    // if(newCards.length===5) {
-    //   console.log("gotcha");
-    //   return game;
-    // }
-
     const {
       cards : cardsPlayer1,
       restCards : rest,
@@ -59,9 +54,12 @@ const Game = () => {
 
 
   const selectCard = (game,index,player) => {
-    const newGame = {...game};
-    newGame.SelectedCards[player][index] = !newGame.SelectedCards[player][index];
-    return Object.freeze(newGame);
+    const newSelectedCardsArray = [...game.SelectedCards];
+    newSelectedCardsArray[player][index] = !newSelectedCardsArray[player][index];
+    return Object.freeze({
+      ...game,
+      SelectedCards: newSelectedCardsArray,
+    });
   }
 
   const automatedPlayer = (gameState) => {
