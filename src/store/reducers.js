@@ -17,9 +17,11 @@ const PokerReducer = (state = initialState, action={} ) => {
       });
 
     case 'CALCULATE_WINNER':
-      return Object.freeze(
-        PokerGame.calculateWinner(state)
-      );
+      const nextGame = PokerGame.changeSelectedCards(PokerGame.automatedPlayer(state));
+      return Object.freeze({
+        ...nextGame,
+        ...PokerGame.calculateWinner(nextGame)
+      });
 
     default:
       return state;
