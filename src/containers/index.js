@@ -1,3 +1,3 @@
-import AllHands from './AllHands';
-import Buttons from  './Buttons'
+import AllHands from './AllHandsContainer';
+import Buttons from  './ButtonsContainer';
 export { AllHands, Buttons };
