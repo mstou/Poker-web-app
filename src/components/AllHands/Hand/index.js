@@ -1,2 +1,2 @@
-import { Hand } from './hand';
-export { Hand };
+import { Hand, OpponentHand } from './hand';
+export { Hand, OpponentHand };
