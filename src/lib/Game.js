@@ -63,7 +63,7 @@ const selectCard = (game,index,player) => {
 }
 
 const automatedPlayer = (gameState) => {
-  const playerHand = gameState.Cards[0];
+  const playerHand = gameState.Cards[1];
   const rating = PokerHandRate(playerHand);
   let cardsToSelect = [];
 
