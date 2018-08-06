@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles/cards.css';
 
-const CardBack = ({ rank, suit }) => (
+const CardBack = () => (
   <div className="card back"> * </div>
 );
 
