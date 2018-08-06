@@ -1,0 +1,30 @@
+ body {
+  background-image: url("./background.png");
+}
+
+.player1Cards {
+  position: relative;
+  top: 15px;
+}
+
+ul {
+  position: relative;
+  top: 20px;
+  left: 110px
+}
+
+.pokerTable {
+  display: inline-block;
+  width: 645px;
+  height: 312px;
+  position: relative;
+  top: 300px;
+  left: 610px;
+  background-image: url("./pokerTable.jpg")
+}
+
+.pokerTableImg {
+  display: inline-block;
+  position: absolute;
+  z-index: -1;
+}
