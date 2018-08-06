@@ -22,8 +22,6 @@ const AllHands = ({Cards,SelectedCards,onCardClick}) => (
      />
    </div>
 
-   {/*<img alt="" className="pokerTableImg" src="/styles/pokerTable.jpg" />*/}
-
   </div>
 );
 
