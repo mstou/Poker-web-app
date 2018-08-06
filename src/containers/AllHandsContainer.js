@@ -3,7 +3,8 @@ import { AllHands } from '../components';
 
 const mapStateToProps = state => ({
   Cards: state.Cards,
-  SelectedCards: state.SelectedCards
+  SelectedCards: state.SelectedCards,
+  winner: state.winner
 });
 
 const mapDispatchToProps = dispatch => {

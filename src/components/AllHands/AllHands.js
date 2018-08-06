@@ -1,16 +1,20 @@
 import React from 'react';
-import { Hand } from './Hand';
+import { Hand, OpponentHand } from './Hand';
 
-const AllHands = ({Cards,SelectedCards,onCardClick}) => (
+const AllHands = ({Cards, SelectedCards, onCardClick, winner}) => (
   <div className="pokerTable">
 
-  <div className="player2cards">
-     <Hand
-        className="player2Cards"
-        cards={Cards[1].orderedCards}
-        selectedCards={SelectedCards[1]}
-        onClick={(rank,suit) => onCardClick(rank,suit,1)}
-     />
+   <div className="player2Cards">
+     {(winner===undefined) ?
+       <OpponentHand /> :
+       (<div className="player2cards">
+          <Hand
+             className="player2Cards"
+             cards={Cards[1].orderedCards}
+             selectedCards={SelectedCards[1]}
+          />
+        </div>
+      )}
    </div>
 
    <div className="player1Cards">
