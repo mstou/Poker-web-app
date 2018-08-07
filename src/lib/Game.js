@@ -54,12 +54,18 @@ const changeSelectedCards = (game) => {
 
 
 const selectCard = (game,index,player) => {
+
+  if(game.winner!==undefined) return game;
+
   const newSelectedCardsArray = [...game.SelectedCards];
+
   newSelectedCardsArray[player][index] = !newSelectedCardsArray[player][index];
+
   return Object.freeze({
     ...game,
     SelectedCards: newSelectedCardsArray,
   });
+
 }
 
 const automatedPlayer = (gameState) => {
