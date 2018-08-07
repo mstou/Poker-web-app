@@ -7,13 +7,11 @@ const AllHands = ({Cards, SelectedCards, onCardClick, winner}) => (
    <div className="player2Cards">
      {(winner===undefined) ?
        <OpponentHand /> :
-       (<div className="player2cards">
-          <Hand
-             className="player2Cards"
-             cards={Cards[1].orderedCards}
-             selectedCards={SelectedCards[1]}
-          />
-        </div>
+       (<Hand
+           className="player2Cards"
+           cards={Cards[1].orderedCards}
+           selectedCards={SelectedCards[1]}
+        />
       )}
    </div>
 
