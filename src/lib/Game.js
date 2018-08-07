@@ -78,7 +78,7 @@ const automatedPlayer = (gameState) => {
   playerHand.cards.findIndex( ({rank: CardRank, suit: CardSuit}) =>
   (CardRank===rank && CardSuit===suit)));
 
-  indexesOfCardsToSelect.forEach((index) => gameState = selectCard(gameState,index,0));
+  indexesOfCardsToSelect.forEach((index) => gameState = selectCard(gameState,index,1));
   const newState = {...gameState};
   return Object.freeze(newState);
 }
